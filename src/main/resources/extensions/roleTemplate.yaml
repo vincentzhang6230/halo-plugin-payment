@@ -1,0 +1,16 @@
+apiVersion: v1alpha1
+kind: Role
+metadata:
+  name: payment-role-view-persons
+  labels:
+    halo.run/role-template: "true"
+    halo.run/hidden: "true"
+    rbac.authorization.halo.run/aggregate-to-authenticated: "true"
+  annotations:
+    rbac.authorization.halo.run/module: "Payment Management"
+    rbac.authorization.halo.run/display-name: "Payment Manage"
+rules:
+  - apiGroups: [ "payment.plugin.halo.run" ]
+    resourceNames: [ "pay" ]
+    resources: ["plugins/trade-precreate","plugins/query-order","plugins/order"]
+    verbs: [ "*" ]

@@ -1,0 +1,55 @@
+apiVersion: v1alpha1
+kind: AnnotationSetting
+metadata:
+  name: payment-annotation-setting
+spec:
+  targetRef:
+    group: content.halo.run
+    kind: Post
+  formSchema:
+    - $formkit: select
+      id: "paymentMode"
+      name: "paymentMode"
+      key: "paymentMode"
+      label: "付费模式"
+      value: "false"
+      options:
+        - label: "关闭"
+          value: "false"
+        - label: "文章付费"
+          value: "post"
+        - label: "资源付费"
+          value: "resources"
+    - $formkit: text
+      if: "$get(paymentMode.value).value != 'false'"
+      id: "price"
+      name: "price"
+      key: "price"
+      label: "价格"
+      value: ""
+    - $formkit: text
+      if: "$get(paymentMode.value).value == 'resources'"
+      id: "resourcesTitle"
+      name: "resourcesTitle"
+      key: "resourcesTitle"
+      label: "资源标题"
+      value: ""
+    - $formkit: text
+      if: "$get(paymentMode.value).value == 'resources'"
+      id: "resourcesAddress"
+      name: "resourcesAddress"
+      key: "resourcesAddress"
+      label: "资源地址"
+      value: ""
+    - $formkit: select
+      if: "$get(paymentMode.value).value == 'resources'"
+      id: "isAdapter"
+      name: "isAdapter"
+      key: "isAdapter"
+      label: "是否由主题适配"
+      value: "false"
+      options:
+        - label: "否"
+          value: "false"
+        - label: "是"
+          value: "true"

@@ -1,0 +1,21 @@
+apiVersion: plugin.halo.run/v1alpha1
+kind: ExtensionDefinition
+metadata:
+  name: pay-read-post-handler
+spec:
+  className: com.vincent.payment.handler.PayReadPostHandler
+  extensionPointName: reactive-post-content-handler
+  displayName: PayReadPostHandler
+  description: "付费阅读"
+
+---
+
+apiVersion: plugin.halo.run/v1alpha1
+kind: ExtensionDefinition
+metadata:
+  name: pay-head-extension
+spec:
+  extensionPointName: template-head-processor
+  className: com.vincent.payment.handler.PayTemplateHeadProcessor
+  displayName: "Pay Head Extension"
+  description: "Adds Pay CSS to the head section."

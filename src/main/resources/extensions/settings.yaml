@@ -1,0 +1,70 @@
+apiVersion: v1alpha1
+kind: Setting
+metadata:
+  name: plugin-payment-settings
+spec:
+  forms:
+    - group: Alipay_configuration
+      label: 支付宝当面付
+      formSchema:
+        - $formkit: text
+          label: 应用id
+          name: appId
+          value: ""
+          validation: required
+        - $formkit: password
+          label: 私钥key
+          name: privateKey
+          value: ""
+          validation: required
+        - $formkit: password
+          label: 公钥key
+          name: alipayPublicKey
+          value: ""
+          validation: required
+        - $formkit: text
+          label: 回调地址
+          name: notifyUrl
+          value: ""
+          validation: required
+    - group: Vmqpay_configuration
+      label: V免签
+      formSchema:
+        - $formkit: password
+          label: 密钥
+          name: key
+          value: ""
+          validation: required
+        - $formkit: text
+          label: 创建地址
+          name: createUrl
+          value: ""
+          validation: required
+        - $formkit: text
+          label: 回调地址
+          name: notifyUrl
+          value: ""
+          validation: required
+    - group: Wxpay_configuration
+      label: 微信支付
+      formSchema:
+        - $formkit: text
+          label: 商户号
+          name: mchId
+          value: ""
+          validation: required
+        - $formkit: text
+          label: 应用号
+          name: appId
+          value: ""
+          validation: required
+        - $formkit: password
+          label: APIv3密钥
+          name: key
+          value: ""
+          validation: required
+        - $formkit: password
+          label: API证书串
+          name: keyPath
+          value: ""
+          validation: required
