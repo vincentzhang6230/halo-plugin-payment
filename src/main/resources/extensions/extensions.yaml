@@ -19,3 +19,15 @@ spec:
   className: com.vincent.payment.handler.PayTemplateHeadProcessor
   displayName: "Pay Head Extension"
   description: "Adds Pay CSS to the head section."
+
+---
+
+apiVersion: plugin.halo.run/v1alpha1
+kind: ExtensionDefinition
+metadata:
+  name: pay-webfilter
+spec:
+  className: com.vincent.payment.handler.RequestFilter
+  displayName: AdditionalWebFilter
+  description: "Contract for interception-style, chained processing of Web requests that may be used to 
+    implement cross-cutting, application-agnostic requirements such as security, timeouts, and others."
