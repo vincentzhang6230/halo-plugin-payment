@@ -83,6 +83,7 @@ export class payModal extends LitElement {
             userId: this.userId,
             title: this.resourceTitle,
             price: this.amount,
+            payType: this.payType,
           }),
         }
       );
