@@ -10,6 +10,7 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.stereotype.Component;
@@ -36,13 +37,12 @@ public class RequestFilter implements AdditionalWebFilter {
         return this.requiresMatcher.matches(exchange)
             .filter(ServerWebExchangeMatcher.MatchResult::isMatch)
             .flatMap(matchResult -> {
-                ServerHttpResponse originalResponse = exchange.getResponse();
-
-                // 装饰原始ServerHttpResponse
-                ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(originalResponse) {
-                    @Override
-                    @NonNull
-                    public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
+                    ServerHttpResponse originalResponse = exchange.getResponse();
+                    // 装饰原始ServerHttpResponse
+                    ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(originalResponse) {
+                        @Override
+                        @NonNull
+                        public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
                             Mono<? extends DataBuffer> fluxBody = (Mono<? extends DataBuffer>) body;
                             return super.writeWith(fluxBody.handle((dataBuffer, sink) -> {
                                 //将请求响应转换为字符串
@@ -68,9 +68,14 @@ public class RequestFilter implements AdditionalWebFilter {
                                     sink.error(new RuntimeException(e));
                                 }
                             }));
-                    }
-                };
-                return chain.filter(exchange.mutate().response(decoratedResponse).build());
-            });
+                        }
+                    };
+                    return chain.filter(exchange.mutate().response(decoratedResponse).build());
+            }).switchIfEmpty(chain.filter(exchange).then(Mono.empty()));
+    }
+
+    @Override
+    public int getOrder() {
+        return SecurityWebFiltersOrder.SECURITY_CONTEXT_SERVER_WEB_EXCHANGE.getOrder();
     }
 }
