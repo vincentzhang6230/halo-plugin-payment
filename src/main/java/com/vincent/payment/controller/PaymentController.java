@@ -32,7 +32,7 @@ public class PaymentController {
     }
 
     @GetMapping("query-order")
-    public Mono<Result<String>> queryOrder(@RequestParam(name = "order") String order, @RequestParam(name = "payType") String payType) {
+    public Mono<Result<String>> queryOrder(@RequestParam(name = "order") String order, @RequestParam(name = "payType",defaultValue = "alipay") String payType) {
         return paymentService.queryOrder(order,payType);
     }
 
