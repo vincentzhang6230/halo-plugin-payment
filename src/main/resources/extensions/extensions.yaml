@@ -28,6 +28,7 @@ metadata:
   name: pay-webfilter
 spec:
   className: com.vincent.payment.handler.RequestFilter
+  extensionPointName: additional-webfilter
   displayName: AdditionalWebFilter
   description: "Contract for interception-style, chained processing of Web requests that may be used to 
     implement cross-cutting, application-agnostic requirements such as security, timeouts, and others."
